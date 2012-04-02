@@ -3,11 +3,11 @@
 # ----------------------- #
 
 url: http://ese350.github.com/MewtwoProject
-title: My Octopress Blog
-subtitle: A blogging framework for hackers.
-author: Your Name
+title: ReKibilitate
+subtitle: A novel, fun physical therapy device
+author: ReKibilitate
 simple_search: http://google.com/search
-description:
+description: For our ESE 350 project, we decided to make a home-supplement physical therapy device that makes the exercises more bearable by making them fun. We are implementing this using a Microsoft Kinect and interfacing it with a BeagleBoard-xM
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
