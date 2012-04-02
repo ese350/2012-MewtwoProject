@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>ReKibilitate</title>
+  <title>How to set up the Kinect, the easy way ... and the hard way - ReKibilitate</title>
   <meta name="author" content="ReKibilitate">
 
   
@@ -20,7 +20,7 @@ chose the &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ese350.github.com/MewtwoProject">
+  <link rel="canonical" href="http://ese350.github.com/MewtwoProject/blog/2012/03/29/how-to-set-up-the-kinect-the-easy-way-and-the-hard-way">
   <link href="/MewtwoProject/favicon.png" rel="icon">
   <link href="/MewtwoProject/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/MewtwoProject/javascripts/modernizr-2.0.js"></script>
@@ -64,15 +64,12 @@ chose the &hellip;">
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/MewtwoProject/blog/2012/03/29/how-to-set-up-the-kinect-the-easy-way-and-the-hard-way/">How to Set Up the Kinect, the Easy Way &#8230; And the Hard Way</a></h1>
+      <h1 class="entry-title">How to Set Up the Kinect, the Easy Way ... And the Hard Way</h1>
     
     
       <p class="meta">
@@ -95,7 +92,7 @@ chose the &hellip;">
   </header>
 
 
-  <div class="entry-content"><p>So as we all know, there are usually two ways of doing things, the
+<div class="entry-content"><p>So as we all know, there are usually two ways of doing things, the
 easy way and the hard way. For setting up the Kinect, we erroneously
 chose the hard way. Given, when you learn how to work with something
 for the first time, it usually takes a while to set up. But when
@@ -148,27 +145,41 @@ everything and the sample code should run on your machine! To test it
 out, go to the OpenNI/Platform/Linux/Bin/x86-Release/ folder and run
 any of the code in there.</p>
 
+<!-- more -->
+
+
+<p>And now for the part that a stronger background in Java would have
+made so much easier. Go to OpenNI/Platform/Linux/Build/. In here, you
+can run <code>make</code> and it&#8217;ll use the <code>Makefile</code> that&#8217;s already set up for
+all the code in the <code>Samples</code> directory. If you want to <code>make</code> the bin
+files again, you have to type <code>make clean</code> and then <code>make</code> again.</p>
+
+<p>Additionally, you can <code>make</code> each of the Samples individually by
+running the same commands when in their Build/Samples/ProjectNameHere/
+directory. Meanwhile, the actual source .java files are in the
+OpenNI/Samples directory. So if you want to edit the source code or
+make a new project, that&#8217;s the place to go. Meanwhile, if you make a
+new project, you&#8217;ll have to set up some <code>Makefile</code>s in the Build
+folder, but at least you have templates there.</p>
+
+<p>Man how all this knowledge could have helped last night. At least we
+got things working and were able to modify the UserTracker program
+that can find your joints and calculated a few angles to demonstrate
+for the physical therapist today. She seemed to like our demo and
+suggested to start with some easy exercises for which to monitor
+form. We&#8217;ll see where that takes us and we&#8217;ll try to have something to
+show to her again soon.</p>
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/MewtwoProject/blog/2012/03/29/how-to-set-up-the-kinect-the-easy-way-and-the-hard-way/">Read on &rarr;</a>
-    </footer>
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/MewtwoProject/blog/2012/03/23/meeting-with-professor-mangharam-idea-solidified/">Meeting With Professor Mangharam: Idea Solidified</a></h1>
-    
-    
-      <p class="meta">
-        
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Steven Chen</span></span>
+
+      
 
 
 
@@ -180,42 +191,32 @@ any of the code in there.</p>
   
 
 
-<time datetime="2012-03-23T20:16:00-04:00" pubdate data-updated="true">Mar 23<span>rd</span>, 2012</time>
-        
-      </p>
+<time datetime="2012-03-29T20:38:00-04:00" pubdate data-updated="true">Mar 29<span>th</span>, 2012</time>
+      
+
+
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><p>Today, we met with Professor Mangharam and talked to him about some of
-the ideas that we had been throwing around. Turns out, our best ideas
-(or at least, the ones that could be spun into some sort of project)
-were the ones that we thought of near the end of the night when we
-were getting really sleepy.</p>
-
-<p>So what did we decide on? Well, we initially wanted to make some sort
-of device that would track form in say, sports such as tennis, running
-or weightlifting. He advised us that to go with a medical focus would
-make the project more likely to have people interested and mentioned
-that he could get in touch with some physical therapists, potentially
-making our product actually used in the market. Exciting, huh?</p>
-
-<p>Another fascinating part for me was that we&#8217;d be using a Kinect as the
-motion tracker. I always knew video games had lots of use. Now I have
-more evidence for my mom.</p>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://ese350.github.com/MewtwoProject/blog/2012/03/29/how-to-set-up-the-kinect-the-easy-way-and-the-hard-way/" data-via="" data-counturl="http://ese350.github.com/MewtwoProject/blog/2012/03/29/how-to-set-up-the-kinect-the-easy-way-and-the-hard-way/" >Tweet</a>
+  
+  
+  
 </div>
-  
-  
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/MewtwoProject/blog/2012/03/23/meeting-with-professor-mangharam-idea-solidified/" title="Previous Post: Meeting with Professor Mangharam: Idea solidified">&laquo; Meeting with Professor Mangharam: Idea solidified</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/MewtwoProject/blog/archives">Blog Archives</a>
-    
-  </div>
 </div>
+
 <aside class="sidebar">
   
     <section>
@@ -223,7 +224,7 @@ more evidence for my mom.</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/MewtwoProject/blog/2012/03/29/how-to-set-up-the-kinect-the-easy-way-and-the-hard-way/">How to set up the Kinect, the easy way &#8230; and the hard way</a>
+        <a href="/MewtwoProject/blog/2012/03/29/how-to-set-up-the-kinect-the-easy-way-and-the-hard-way/">How to set up the Kinect, the easy way ... and the hard way</a>
       </li>
     
       <li class="post">
@@ -240,6 +241,7 @@ more evidence for my mom.</p>
 
   
 </aside>
+
 
     </div>
   </div>
