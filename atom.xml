@@ -4,7 +4,7 @@
   <title><![CDATA[ReKibilitate]]></title>
   <link href="http://ese350.github.com/MewtwoProject/atom.xml" rel="self"/>
   <link href="http://ese350.github.com/MewtwoProject/"/>
-  <updated>2012-04-02T05:12:46-04:00</updated>
+  <updated>2012-04-02T05:34:51-04:00</updated>
   <id>http://ese350.github.com/MewtwoProject/</id>
   <author>
     <name><![CDATA[ReKibilitate]]></name>
@@ -12,5 +12,29 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Meeting with Professor Mangharam: Idea solidified]]></title>
+    <link href="http://ese350.github.com/MewtwoProject/blog/2012/03/23/meeting-with-professor-mangharam-idea-solidified/"/>
+    <updated>2012-03-23T20:16:00-04:00</updated>
+    <id>http://ese350.github.com/MewtwoProject/blog/2012/03/23/meeting-with-professor-mangharam-idea-solidified</id>
+    <content type="html"><![CDATA[<p>Today, we met with Professor Mangharam and talked to him about some of
+the ideas that we had been throwing around. Turns out, our best ideas
+(or at least, the ones that could be spun into some sort of project)
+were the ones that we thought of near the end of the night when we
+were getting really sleepy.</p>
+
+<p>So what did we decide on? Well, we initially wanted to make some sort
+of device that would track form in say, sports such as tennis, running
+or weightlifting. He advised us that to go with a medical focus would
+make the project more likely to have people interested and mentioned
+that he could get in touch with some physical therapists, potentially
+making our product actually used in the market. Exciting, huh?</p>
+
+<p>Another fascinating part for me was that we&#8217;d be using a Kinect as the
+motion tracker. I always knew video games had lots of use. Now I have
+more evidence for my mom.</p>
+]]></content>
+  </entry>
   
 </feed>
