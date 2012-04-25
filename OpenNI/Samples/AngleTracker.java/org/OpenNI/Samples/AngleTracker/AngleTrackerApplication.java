@@ -21,6 +21,7 @@
 ****************************************************************************/
 package org.OpenNI.Samples.AngleTracker;
 
+import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
@@ -56,7 +57,7 @@ public class AngleTrackerApplication {
 		});
     }
 
-    public static void main(String s[])
+    public static void main(String[] s)
     {
         JFrame f = new JFrame("OpenNI User Tracker");
         f.addWindowListener(new WindowAdapter() {
@@ -68,7 +69,36 @@ public class AngleTrackerApplication {
         f.add("Center", app.viewer);
         f.pack();
         f.setVisible(true);
+        
+        /*final JFrame frame = new JFrame("Pong");
+  	  	frame.setLocation(300, 300);
+
+  	  	// Main playing area
+  	  	final PongCourt court = new PongCourt(app.viewer);
+  	  	frame.add(court, BorderLayout.CENTER);*/
+
+        
+        final JFrame frame = new JFrame("Hurdle Turtle");
+  	  	frame.setLocation(500, 300);
+
+  	  	// Main playing area
+  	  	final Arena arena = new Arena(app.viewer);
+  	  	frame.add(arena, BorderLayout.CENTER);
+  	  	
+  	  	frame.pack();
+  	  	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+  	  	frame.setVisible(true);
+
+  	  	// Start the game running
+  	  	arena.reset();
+  	  	
+        MP3 mp3 = new MP3(s[0]);
+        mp3.play();
+        //MP3Player mp3 = new MP3Player(s[0]);
+        //mp3.run();
+        
         app.run();
+        
     }
 
     void run()

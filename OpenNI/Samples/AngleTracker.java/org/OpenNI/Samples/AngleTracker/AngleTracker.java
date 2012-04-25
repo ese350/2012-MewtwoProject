@@ -23,8 +23,11 @@ package org.OpenNI.Samples.AngleTracker;
 
 import org.OpenNI.*;
 
+import java.util.Random;
+import java.util.Scanner;
 import java.nio.ShortBuffer;
 import java.util.HashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.awt.*;
 import java.awt.color.ColorSpace;
 import java.awt.image.*;
@@ -71,7 +74,7 @@ public class AngleTracker extends Component
 		public void update(IObservable<CalibrationProgressEventArgs> observable,
 				CalibrationProgressEventArgs args)
 		{
-			System.out.println("Calibraion complete: " + args.getStatus());
+			System.out.println("Calibration complete: " + args.getStatus());
 			try
 			{
 			if (args.getStatus() == CalibrationProgressStatus.OK)
@@ -135,6 +138,31 @@ public class AngleTracker extends Component
     private boolean printID = true;
     private boolean printState = true;
     
+    private double goal;
+    private int reps;
+    private int rep = 0;
+    private int sets;
+    private int set = 0;
+    private long lastEventTime = 0;
+    private long rightNow;
+    private long timeSinceLast = 0;
+    private boolean enoughElapsedTime;
+    private boolean possibleBoredom = false;
+    private Random rand = new Random();
+    private boolean didAction = false;
+    private boolean returnedToStart = true;
+
+	SkeletonJoint midJoint;
+	SkeletonJoint anchorJoint;
+	SkeletonJoint movingJoint;
+    
+    private static String[] encPhrases = {"You can do it!", "One more!", 
+    	"Almost there!", "Can’t is NOT a word!", 
+    	"You can if you think you can!", "Pain is weakness leaving the body!"
+    	};
+    
+    private static String[] slowPhrases = {"Don't give up now!", "Keep at it!"
+    	};
     
     private BufferedImage bimg;
     int width, height;
@@ -169,12 +197,81 @@ public class AngleTracker extends Component
             joints = new HashMap<Integer, HashMap<SkeletonJoint,SkeletonJointPosition>>();
             
             skeletonCap.setSkeletonProfile(SkeletonProfile.ALL);
-			
-			context.startGeneratingAll();
+            
+            System.out.println("\nWelcome to Rekibilitate!\n");
+            // User input
+        	
+            boolean done = false;
+            while (!done) {
+	            try {
+	            	Scanner stdin = new Scanner( System.in );
+	            	System.out.println("What's your first name?");
+	            	String name = stdin.next();
+	            	
+	            	if (!name.equals("Steven")){
+	            		System.out.println("Looks like you're new. Welcome!");
+	            	}
+	            	else {
+	            		System.out.println("Welcome back, " + name + "!");
+	            	}
+	            	
+	            	System.out.println("What joint would you like to work today?");
+	            	System.out.println("e.g. Right Knee");
+	            	String direction = stdin.next();
+	            	String joint = stdin.next();
+	            	if (direction.equalsIgnoreCase("Left") && 
+	            			joint.equalsIgnoreCase("Elbow")){
+	            	    midJoint = SkeletonJoint.LEFT_ELBOW;
+	            	   	anchorJoint = SkeletonJoint.LEFT_SHOULDER;
+	            	   	movingJoint = SkeletonJoint.LEFT_HAND;
+	            	}
+	            	else if (direction.equalsIgnoreCase("Right") && 
+	           				joint.equalsIgnoreCase("Elbow")){
+	           	    	midJoint = SkeletonJoint.RIGHT_ELBOW;
+	           	    	anchorJoint = SkeletonJoint.RIGHT_SHOULDER;
+	           	    	movingJoint = SkeletonJoint.RIGHT_HAND;
+	           		} 
+	           		else if (direction.equalsIgnoreCase("Left") && 
+	           				joint.equalsIgnoreCase("Knee")){
+	           	    	midJoint = SkeletonJoint.LEFT_KNEE;
+	           	    	anchorJoint = SkeletonJoint.LEFT_HIP;
+	           	    	movingJoint = SkeletonJoint.LEFT_FOOT;
+	           		} 
+	           		else if (direction.equalsIgnoreCase("Right") && 
+            				joint.equals("Knee")){
+	            	    midJoint = SkeletonJoint.RIGHT_KNEE;
+	            	   	anchorJoint = SkeletonJoint.RIGHT_HIP;
+	            	   	movingJoint = SkeletonJoint.RIGHT_FOOT;
+	            	} 
+	            	else {
+	            		System.out.println("Invalid input, please try again");
+	           			continue;
+	            	}
+	            	
+	            	System.out.println("Please enter your target angle:");
+	            	goal = stdin.nextDouble();
+	                System.out.println("Please enter number of reps:");
+	                reps = stdin.nextInt();
+	                System.out.println("Please enter number of sets:");
+	                sets = stdin.nextInt();
+	                System.out.println("Goal is: " + sets + " sets of " + reps +
+	                		" reps at " + goal + " degrees");
+	                System.out.println("Let's get started!");
+	                done = true;
+	            } catch (Exception e) {
+	                System.err.println("Error:" + e.getMessage());
+	                System.exit(1);
+	            }
+				Thread.sleep(1000);
+				context.startGeneratingAll();
+            }
         } catch (GeneralException e) {
             e.printStackTrace();
             System.exit(1);
-        }
+        } catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     private void calcHist(ShortBuffer depth)
@@ -308,35 +405,13 @@ public class AngleTracker extends Component
 
 		g.drawLine((int)pos1.getX(), (int)pos1.getY(), (int)pos2.getX(), (int)pos2.getY());
     }
+    
     public void drawSkeleton(Graphics g, int user) throws StatusException
     {
     	getJoints(user);
     	HashMap<SkeletonJoint, SkeletonJointPosition> dict = joints.get(new Integer(user));
 
-	SkeletonJoint joint1 = SkeletonJoint.RIGHT_SHOULDER;
-	SkeletonJoint joint2 = SkeletonJoint.RIGHT_ELBOW;
-	SkeletonJoint joint3 = SkeletonJoint.RIGHT_HAND;
-
-	if (dict.get(joint1).getConfidence() != 0 || dict.get(joint2).getConfidence() != 0 || dict.get(joint3).getConfidence() != 0) {
-		Point3D pos1 = dict.get(joint1).getPosition();
-		Point3D pos2 = dict.get(joint2).getPosition();
-		Point3D pos3 = dict.get(joint3).getPosition();
-	    
-		System.out.println("Shoulder: (" + (int)pos1.getX() + ","  + (int)pos1.getY() + ") Elbow: ("  + (int)pos2.getX() + ","  + (int)pos2.getY() + ") Hand: ("  + (int)pos3.getX() + ","  + (int)pos3.getY() + ")");
-		
-		double p12 = Math.sqrt(Math.pow((pos1.getX() - pos2.getX()),2) + Math.pow((pos1.getY() - pos2.getY()),2));
-		double p13 = Math.sqrt(Math.pow((pos1.getX() - pos3.getX()),2) + Math.pow((pos1.getY() - pos3.getY()),2));
-		double p23 = Math.sqrt(Math.pow((pos2.getX() - pos3.getX()),2) + Math.pow((pos2.getY() - pos3.getY()),2));
-
-		double insideacos = (Math.pow(p12,2) + Math.pow(p13,2) - Math.pow(p23,2)) / (2 * p12 * p13);
-		double ang = Math.acos(insideacos);
-		
-		//		System.out.println(p12 + " " + p13 + " " + p23 + " insideacos:" + insideacos + " ang:" + ang);
-		
-		System.out.println("Angle: " + ang*180/Math.PI + " degrees");
-
-	}
-    	
+    	outputAngle(user);
 
     	drawLine(g, dict, SkeletonJoint.HEAD, SkeletonJoint.NECK);
 
@@ -363,6 +438,66 @@ public class AngleTracker extends Component
 
     }
     
+    public void outputAngle(int user)
+    {
+    	HashMap<SkeletonJoint, SkeletonJointPosition> dict = joints.get(new Integer(user));
+    	
+    	if (dict.get(midJoint).getConfidence() != 0 || 
+    			dict.get(anchorJoint).getConfidence() != 0 || 
+    			dict.get(movingJoint).getConfidence() != 0)
+    	{
+    		Point3D pos1 = dict.get(midJoint).getPosition();
+    		Point3D pos2 = dict.get(anchorJoint).getPosition();
+    		Point3D pos3 = dict.get(movingJoint).getPosition();
+    		
+    		double p12 = Math.sqrt(Math.pow((pos1.getX() - pos2.getX()),2) 
+    				+ Math.pow((pos1.getY() - pos2.getY()),2));
+    		double p13 = Math.sqrt(Math.pow((pos1.getX() - pos3.getX()),2) 
+    				+ Math.pow((pos1.getY() - pos3.getY()),2));
+    		double p23 = Math.sqrt(Math.pow((pos2.getX() - pos3.getX()),2) 
+    				+ Math.pow((pos2.getY() - pos3.getY()),2));
+
+    		double insideacos = (Math.pow(p12,2) + Math.pow(p13,2) - Math.pow(p23,2))
+    				/ (2 * p12 * p13);
+    		double radAng = Math.acos(insideacos);
+    		double degAng = 180 - radAng*180/Math.PI;
+    		
+    		//System.out.println("Angle: " + degAng + " degrees");
+    		rightNow = System.currentTimeMillis();
+    		timeSinceLast = LongSubtraction.subAndCheck(rightNow, lastEventTime);
+    		if ((timeSinceLast > 10000) && possibleBoredom){
+    			System.out.println(slowPhrases[rand.nextInt(slowPhrases.length-1)]);
+    			possibleBoredom = false;
+    		}
+    		enoughElapsedTime = timeSinceLast > 1000;
+    		if ((degAng < 10) && !returnedToStart){
+    			returnedToStart = true;
+    			returning();
+    		}
+    		if ((degAng > goal) && (lastEventTime == 0 || enoughElapsedTime)
+    				&& returnedToStart) {
+    			doingAction();
+    			returnedToStart = false;
+    			possibleBoredom = true;
+    			lastEventTime = rightNow;
+    			rep += 1;
+    			if (rep == reps)
+    			{
+    				rep = 0;
+    				set += 1;
+    				System.out.println(set + " sets down, " + (sets-set) + " to go!");
+    				if (set == sets){
+    	    			System.out.println("Congratulations! You're done for the day");
+    	    			set = 0;
+    				}
+    			}
+    			else if (rep == reps-2){
+    				System.out.println(encPhrases[rand.nextInt(encPhrases.length-1)]);
+    			}
+    		}
+    	}
+    }
+      
     public void paint(Graphics g)
     {
     	if (drawPixels)
@@ -422,6 +557,40 @@ public class AngleTracker extends Component
 		{
 			e.printStackTrace();
 		}
+    }
+    
+    private final CopyOnWriteArrayList<Listener> listeners = new CopyOnWriteArrayList<Listener>();
+
+    private void fireAfterValueChanged() {
+      for (Listener listener : listeners) {
+        listener.afterValueChanged(this);
+      }
+    }
+
+    public boolean getValue() {
+      return didAction;
+    }
+
+    public void doingAction() {
+    	didAction = true;
+    	fireAfterValueChanged();
+    }
+    
+    public void returning() {
+    	didAction = false;
+    	fireAfterValueChanged();
+    }
+
+    public void addListener(Listener listener) {
+      listeners.add(listener);
+    }
+
+    public void removeListener(Listener listener) {
+      listeners.remove(listener);
+    }
+
+    public interface Listener {
+      void afterValueChanged(AngleTracker app);
     }
 }
 
