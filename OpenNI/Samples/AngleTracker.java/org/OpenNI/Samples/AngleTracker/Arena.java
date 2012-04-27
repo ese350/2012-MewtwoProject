@@ -55,7 +55,11 @@ public class Arena extends JComponent {
 		app.addListener(new AngleTracker.Listener() {
 		      @Override
 		      public void afterValueChanged(AngleTracker angNow) {
-		    	  if (angNow.getValue()){
+		    	  String val = angNow.getValue();
+		    	  if (val.equals("jump")){
+		    		  jump();
+		    	  }
+		    	  else if (val.equals("hijump")){
 		    		  jump();
 		    	  }
 		    	  else {
@@ -69,50 +73,6 @@ public class Arena extends JComponent {
 						}
 		    	  }
 		    }});
-		/*
-		addKeyListener(new KeyAdapter() {
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_SPACE){
-				    jump();
-				}
-				else if (e.getKeyCode() == KeyEvent.VK_RIGHT)
-					//System.out.println("jumped");
-					turtle.setVelocityX(TURTLE_VEL);
-				else if (e.getKeyCode() == KeyEvent.VK_LEFT)
-					turtle.setVelocityX(-TURTLE_VEL);
-				else if (e.getKeyCode() == KeyEvent.VK_UP)
-					turtle.setVelocityY(-TURTLE_VEL);
-				else if (e.getKeyCode() == KeyEvent.VK_DOWN)
-					turtle.setVelocityY(TURTLE_VEL);
-				else if (e.getKeyCode() == KeyEvent.VK_ENTER){
-					if(!pause){ // make gameobjects into data structure later (set)
-					turtle.pause(); 
-					hurdle.pause();
-					hurdle2.pause(); 
-					pause = true;
-					}
-					else{
-					turtle.setVelocity(turtle.lastvx, turtle.lastvy);	
-					hurdle.setVelocity(hurdle.lastvx, hurdle.lastvy);
-					pause = false;
-					}
-				}
-				else if (e.getKeyCode() == KeyEvent.VK_R)
-					reset();
-			}
-
-			public void keyReleased(KeyEvent e) {
-				//System.out.println("released");
-				if(pressed)
-					pressed = false;
-				if(!pressed){
-				turtle.setVelocity(0, 0);
-				isJumping = false;
-				System.out.println("isJumping is false");
-				}// could make boolean to determine whether jumped
-			}
-			
-		});*/
 		// After a PongCourt object is built and installed in a container
 		// hierarchy, somebody should invoke reset() to get things started...
 	}

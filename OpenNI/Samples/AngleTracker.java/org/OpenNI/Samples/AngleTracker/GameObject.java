@@ -106,23 +106,7 @@ public abstract class GameObject {
 				|| other.y + other.height < y)
 			return false;
 		else return true;
-
-		// compute the vector from the center of this object to the center of
-		// the other
-		/*double dx = other.x + other.width /2 - (x + width /2);
-		double dy = other.y + other.height/2 - (y + height/2);
-
-		double theta = Math.atan2(dy, dx);
-		double diagTheta = Math.atan2(height, width);
-
-		if ( -diagTheta <= theta && theta <= diagTheta )
-			return Intersection.RIGHT;
-		if ( diagTheta <= theta && theta <= Math.PI - diagTheta )
-			return Intersection.DOWN;
-		if ( Math.PI - diagTheta <= theta || theta <= diagTheta - Math.PI )
-			return Intersection.LEFT;
-		// if ( diagTheta - Math.PI <= theta && theta <= diagTheta)
-		return Intersection.UP; */
+		
 	}
 
 	public abstract void accelerate(int boundvalue);

@@ -17,8 +17,11 @@ public class Wall extends GameObject {
 	
 	public Wall(int x, int y, int velocityX) {
 		super(x, y - HEIGHT, velocityX, 0 , WIDTH, HEIGHT, i);
-	}	public void accelerate(int boundvalue) {
 	}
+	
+	public void accelerate(int boundvalue) {
+	}
+	
 	public void reenter() { // when hurdle moves off the pages, renters from the right side
 		if (x <= 0)
 			x = rightBound;

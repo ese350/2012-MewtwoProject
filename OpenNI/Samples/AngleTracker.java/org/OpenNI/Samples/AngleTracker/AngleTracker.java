@@ -132,29 +132,33 @@ public class AngleTracker extends Component
     String calibPose = null;
     HashMap<Integer, HashMap<SkeletonJoint, SkeletonJointPosition>> joints;
 
-    private boolean drawBackground = true;
-    private boolean drawPixels = true;
+    private boolean drawBackground = false;
+    private boolean drawPixels = false;
     private boolean drawSkeleton = true;
-    private boolean printID = true;
-    private boolean printState = true;
+    private boolean printID = false;
+    private boolean printState = false;
     
+    // Our variables
+    private double lowGoal;
     private double goal;
     private int reps;
     private int rep = 0;
     private int sets;
     private int set = 0;
     private long lastEventTime = 0;
-    private long rightNow;
     private long timeSinceLast = 0;
+    private long lastNeutralTime = 0;
     private boolean enoughElapsedTime;
     private boolean possibleBoredom = false;
     private Random rand = new Random();
-    private boolean didAction = false;
+    private String whatAction;
     private boolean returnedToStart = true;
-
-	SkeletonJoint midJoint;
-	SkeletonJoint anchorJoint;
-	SkeletonJoint movingJoint;
+    private boolean returnedFromGoal = true;
+    private boolean depthExercise = false;
+    private double lastAng = 0;
+    private SkeletonJoint midJoint;
+	private SkeletonJoint anchorJoint;
+	private SkeletonJoint movingJoint;
     
     private static String[] encPhrases = {"You can do it!", "One more!", 
     	"Almost there!", "Can’t is NOT a word!", 
@@ -247,8 +251,15 @@ public class AngleTracker extends Component
 	            		System.out.println("Invalid input, please try again");
 	           			continue;
 	            	}
-	            	
+	            	System.out.println("Is this a depth exercise? Type \"Yes\" if so.");
+	            	String depth = stdin.next();
+	            	if (depth.equals("Yes")){
+	            		depthExercise = true;
+	            	}
+
 	            	System.out.println("Please enter your target angle:");
+	            	lowGoal = stdin.nextDouble();
+	            	System.out.println("Please enter your reach angle:");
 	            	goal = stdin.nextDouble();
 	                System.out.println("Please enter number of reps:");
 	                reps = stdin.nextInt();
@@ -258,6 +269,7 @@ public class AngleTracker extends Component
 	                		" reps at " + goal + " degrees");
 	                System.out.println("Let's get started!");
 	                done = true;
+	                
 	            } catch (Exception e) {
 	                System.err.println("Error:" + e.getMessage());
 	                System.exit(1);
@@ -332,7 +344,7 @@ public class AngleTracker extends Component
         		imgbytes[3*pos+1] = 0;
         		imgbytes[3*pos+2] = 0;                	
 
-                if (drawBackground || pixel != 0)
+                if (drawBackground && pixel != 0)
                 {
                 	int colorID = user % (colors.length-1);
                 	if (user == 0)
@@ -358,7 +370,7 @@ public class AngleTracker extends Component
         return new Dimension(width, height);
     }
 
-    Color colors[] = {Color.RED, Color.BLUE, Color.CYAN, Color.GREEN, Color.MAGENTA, Color.PINK, Color.YELLOW, Color.WHITE};
+    Color colors[] = {Color.BLUE, Color.CYAN, Color.GREEN, Color.MAGENTA, Color.PINK, Color.YELLOW, Color.WHITE};//Color.RED, };
     public void getJoint(int user, SkeletonJoint joint) throws StatusException
     {
         SkeletonJointPosition pos = skeletonCap.getSkeletonJointPosition(user, joint);
@@ -411,8 +423,6 @@ public class AngleTracker extends Component
     	getJoints(user);
     	HashMap<SkeletonJoint, SkeletonJointPosition> dict = joints.get(new Integer(user));
 
-    	outputAngle(user);
-
     	drawLine(g, dict, SkeletonJoint.HEAD, SkeletonJoint.NECK);
 
     	drawLine(g, dict, SkeletonJoint.LEFT_SHOULDER, SkeletonJoint.TORSO);
@@ -438,63 +448,171 @@ public class AngleTracker extends Component
 
     }
     
-    public void outputAngle(int user)
+    public double calcAngle(double pt1dim1, double pt1dim2, double pt2dim1, double pt2dim2){
+    	return Math.sqrt(Math.pow((pt1dim1 - pt2dim1),2)
+    			+ Math.pow((pt1dim2 - pt2dim2),2));
+    }
+    
+    public void outputAngle(int user) throws StatusException
     {
+    	getJoints(user);
     	HashMap<SkeletonJoint, SkeletonJointPosition> dict = joints.get(new Integer(user));
     	
     	if (dict.get(midJoint).getConfidence() != 0 || 
     			dict.get(anchorJoint).getConfidence() != 0 || 
     			dict.get(movingJoint).getConfidence() != 0)
     	{
-    		Point3D pos1 = dict.get(midJoint).getPosition();
-    		Point3D pos2 = dict.get(anchorJoint).getPosition();
-    		Point3D pos3 = dict.get(movingJoint).getPosition();
+    		Point3D midPos = dict.get(midJoint).getPosition();
+    		Point3D anchorPos = dict.get(anchorJoint).getPosition();
+    		Point3D movingPos = dict.get(movingJoint).getPosition();    	
     		
-    		double p12 = Math.sqrt(Math.pow((pos1.getX() - pos2.getX()),2) 
-    				+ Math.pow((pos1.getY() - pos2.getY()),2));
-    		double p13 = Math.sqrt(Math.pow((pos1.getX() - pos3.getX()),2) 
-    				+ Math.pow((pos1.getY() - pos3.getY()),2));
-    		double p23 = Math.sqrt(Math.pow((pos2.getX() - pos3.getX()),2) 
-    				+ Math.pow((pos2.getY() - pos3.getY()),2));
+    		double midPosX = midPos.getX();
+    		double midPosY = midPos.getY();
+    		double midPosZ = midPos.getZ();
+    		double anchorPosX = anchorPos.getX();
+    		double anchorPosY = anchorPos.getY();
+    		double anchorPosZ = anchorPos.getZ();
+    		double movingPosX = movingPos.getX();
+    		double movingPosY = movingPos.getY();
+    		double movingPosZ = movingPos.getZ();
+    		
+    		double p12;
+    		double p13;
+    		double p23;
+    		
+    		if (depthExercise) {    			
+    			p12 = calcAngle(midPosY, midPosZ, anchorPosY, anchorPosZ);
+    			p13 = calcAngle(midPosY, midPosZ, movingPosY, movingPosZ);
+    			p23 = calcAngle(anchorPosY, anchorPosZ, movingPosY, movingPosZ);
+    		}
+    		else {
+    			p12 = calcAngle(midPosX, midPosY, anchorPosX, anchorPosY);
+    			p13 = calcAngle(midPosX, midPosY, movingPosX, movingPosY);
+    			p23 = calcAngle(anchorPosX, anchorPosY, movingPosX, movingPosY);
+    		}
 
     		double insideacos = (Math.pow(p12,2) + Math.pow(p13,2) - Math.pow(p23,2))
     				/ (2 * p12 * p13);
     		double radAng = Math.acos(insideacos);
-    		double degAng = 180 - radAng*180/Math.PI;
-    		
+    		double degAng = 180 - Math.toDegrees(radAng);    		
     		//System.out.println("Angle: " + degAng + " degrees");
-    		rightNow = System.currentTimeMillis();
+    		
+    		// Boredom testing
+    		long rightNow = System.currentTimeMillis();
     		timeSinceLast = LongSubtraction.subAndCheck(rightNow, lastEventTime);
     		if ((timeSinceLast > 10000) && possibleBoredom){
     			System.out.println(slowPhrases[rand.nextInt(slowPhrases.length-1)]);
     			possibleBoredom = false;
     		}
+    		// Make sure enough time elapsed
     		enoughElapsedTime = timeSinceLast > 1000;
-    		if ((degAng < 10) && !returnedToStart){
+    			
+    		if ((degAng < 15) && !returnedToStart){
     			returnedToStart = true;
     			returning();
     		}
-    		if ((degAng > goal) && (lastEventTime == 0 || enoughElapsedTime)
-    				&& returnedToStart) {
-    			doingAction();
-    			returnedToStart = false;
-    			possibleBoredom = true;
-    			lastEventTime = rightNow;
-    			rep += 1;
-    			if (rep == reps)
-    			{
-    				rep = 0;
-    				set += 1;
-    				System.out.println(set + " sets down, " + (sets-set) + " to go!");
-    				if (set == sets){
-    	    			System.out.println("Congratulations! You're done for the day");
-    	    			set = 0;
-    				}
+    		if (degAng < goal)
+    			returnedFromGoal = true;
+    		// Make sure they're going slowly
+    		if (degAng < 10){
+    			lastNeutralTime = rightNow;
+    		}
+    		boolean fastMove = LongSubtraction.subAndCheck(rightNow, lastNeutralTime) < 400;
+    		boolean slowMove = LongSubtraction.subAndCheck(rightNow, lastNeutralTime) > 2000;
+    		
+    		//Depth control
+    		boolean properDepth = true;
+    		if (!depthExercise){
+    			if (anchorPosZ - movingPosZ > 150) {
+    				System.out.println("Your " + movingJoint + " is too far forward!");
+    				properDepth = false;
     			}
-    			else if (rep == reps-2){
-    				System.out.println(encPhrases[rand.nextInt(encPhrases.length-1)]);
+    			else if (movingPosZ - anchorPosZ > 150) {
+    				System.out.println("Your " + movingJoint + " is too far back!");
+    				properDepth = false;
     			}
     		}
+    		else {
+    			if (anchorPosX - movingPosX > 50) {
+    				System.out.println("Your " + movingJoint + " is too much to the left!");
+    				properDepth = false;
+    			}
+    			else if (movingPosX - anchorPosX > 50) {
+    				System.out.println("Your " + movingJoint + " is too much to the right!");
+    				properDepth = false;
+    			}
+    		}
+    		// Lower angle goal - shorter jump
+    		if ((degAng > lowGoal) && properDepth && returnedToStart && returnedFromGoal && (degAng < lastAng)) {
+				
+				returnedToStart = false;
+				possibleBoredom = true;
+				returnedFromGoal = false;
+			
+				if (!enoughElapsedTime) {
+					System.out.println("You must wait longer between movements!");
+				}
+				else if (fastMove) {
+					System.out.println("You moved too quickly!");
+				}
+				else if (slowMove) {
+					System.out.println("You moved too slowly!");
+				}
+				else {
+					jumped();
+					lastEventTime = rightNow;
+					rep += 1;
+					if (rep == reps)
+					{
+						rep = 0;
+						set += 1;
+						System.out.println(set + " sets down, " + (sets-set) + " to go!");
+						if (set == sets){
+							System.out.println("Congratulations! You're done for the day");
+							set = 0;
+        				}
+        			}
+        			else if (rep == reps-2){
+        				System.out.println(encPhrases[rand.nextInt(encPhrases.length-1)]);
+        			}
+        		}
+    		}
+    		// Reach angle goal - taller jump
+    		else if ((degAng > goal) && properDepth && returnedToStart && returnedFromGoal) {
+			
+				returnedToStart = false;
+				possibleBoredom = true;
+				returnedFromGoal = false;
+			
+				if (!enoughElapsedTime) {
+					System.out.println("You must wait longer between movements!");
+				}
+				else if (fastMove) {
+					System.out.println("You moved too quickly!");
+				}
+				else if (slowMove) {
+					System.out.println("You moved too slowly!");
+				}
+				else {
+					hiJump();
+					lastEventTime = rightNow;
+					rep += 1;
+					if (rep == reps)
+					{
+						rep = 0;
+						set += 1;
+						System.out.println(set + " sets down, " + (sets-set) + " to go!");
+						if (set == sets){
+							System.out.println("Congratulations! You're done for the day");
+							set = 0;
+        				}
+        			}
+        			else if (rep == reps-2){
+        				System.out.println(encPhrases[rand.nextInt(encPhrases.length-1)]);
+        			}
+        		}
+    		}
+    		lastAng = degAng;
     	}
     }
       
@@ -524,6 +642,7 @@ public class AngleTracker extends Component
 				if (drawSkeleton && skeletonCap.isSkeletonTracking(users[i]))
 				{
 					drawSkeleton(g, users[i]);
+					outputAngle(users[i]);
 				}
 				
 				if (printID)
@@ -567,17 +686,22 @@ public class AngleTracker extends Component
       }
     }
 
-    public boolean getValue() {
-      return didAction;
+    public String getValue() {
+    	return whatAction;
     }
 
-    public void doingAction() {
-    	didAction = true;
+    public void jumped() {
+    	whatAction = "jump";
+    	fireAfterValueChanged();
+    }
+
+    public void hiJump() {
+    	whatAction = "hijump";
     	fireAfterValueChanged();
     }
     
     public void returning() {
-    	didAction = false;
+    	whatAction = "";
     	fireAfterValueChanged();
     }
 

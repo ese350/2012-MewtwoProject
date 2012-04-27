@@ -78,11 +78,11 @@ public class AngleTrackerApplication {
   	  	frame.add(court, BorderLayout.CENTER);*/
 
         
-        final JFrame frame = new JFrame("Hurdle Turtle");
-  	  	frame.setLocation(500, 300);
+        JFrame frame = new JFrame("Hurdle Turtle");
+  	  	frame.setLocation(600, 400);
 
   	  	// Main playing area
-  	  	final Arena arena = new Arena(app.viewer);
+  	  	Arena arena = new Arena(app.viewer);
   	  	frame.add(arena, BorderLayout.CENTER);
   	  	
   	  	frame.pack();
@@ -92,7 +92,7 @@ public class AngleTrackerApplication {
   	  	// Start the game running
   	  	arena.reset();
   	  	
-        MP3 mp3 = new MP3(s[0]);
+        MP3 mp3 = new MP3("/home/chenst/MewtwoProject/OpenNI/Samples/AngleTracker.java/org/OpenNI/Samples/AngleTracker/TMNT.mp3");
         mp3.play();
         //MP3Player mp3 = new MP3Player(s[0]);
         //mp3.run();
