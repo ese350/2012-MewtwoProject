@@ -4,7 +4,7 @@
   <title><![CDATA[ReKibilitate]]></title>
   <link href="http://ese350.github.com/MewtwoProject/atom.xml" rel="self"/>
   <link href="http://ese350.github.com/MewtwoProject/"/>
-  <updated>2012-04-02T06:18:58-04:00</updated>
+  <updated>2012-04-27T10:40:13-04:00</updated>
   <id>http://ese350.github.com/MewtwoProject/</id>
   <author>
     <name><![CDATA[ReKibilitate]]></name>
@@ -12,6 +12,18 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Demo Video!]]></title>
+    <link href="http://ese350.github.com/MewtwoProject/blog/2012/04/27/demo-video/"/>
+    <updated>2012-04-27T10:35:00-04:00</updated>
+    <id>http://ese350.github.com/MewtwoProject/blog/2012/04/27/demo-video</id>
+    <content type="html"><![CDATA[<p>Here&#8217;s our demo video!</p>
+
+<iframe width="560" height="315" src="http://www.youtube.com/embed/t9CLL8hFmzg" frameborder="0" allowfullscreen></iframe>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to set up the Kinect, the easy way ... and the hard way]]></title>
