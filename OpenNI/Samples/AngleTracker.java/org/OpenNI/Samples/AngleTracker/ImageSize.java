@@ -1,4 +1,4 @@
-package org.OpenNI.Samples.AngleTracker; 
+package org.OpenNI.Samples.AngleTracker;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -13,7 +13,7 @@ public class ImageSize extends Frame{
   }
   public ImageSize() throws InterruptedException{
   Toolkit tool = Toolkit.getDefaultToolkit();
-  image = tool.getImage("C:/Users/Amy/Desktop/Spring 2012/CIS120/turtle2.PNG");
+  image = tool.getImage("/home/chenst/MewtwoProject/Assets/tallhurdle.png");
   MediaTracker mTracker = new MediaTracker(this);
   mTracker.addImage(image,1);
   mTracker.waitForID(1);

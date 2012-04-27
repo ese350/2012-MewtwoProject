@@ -6,16 +6,16 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 
-public class Hurdle extends GameObject {
-	final static int WIDTH = 26;
-	final static int HEIGHT = 160;
+public class TallHurdle extends GameObject {
+	final static int WIDTH = 45;
+	final static int HEIGHT = 203;
 	
 	
-	static ImageIcon h = new ImageIcon("/home/chenst/MewtwoProject/Assets/hurdle2.png");
-	private static Image i = h.getImage();
+	static ImageIcon tallHurdle = new ImageIcon("/home/chenst/MewtwoProject/Assets/tallhurdle.png");
+	private static Image i = tallHurdle.getImage();
 	
 	
-	public Hurdle(int x, int y, int velocityX) {
+	public TallHurdle(int x, int y, int velocityX) {
 		super(x, y - HEIGHT, velocityX, 0 , WIDTH, HEIGHT, i);
 	}
 
@@ -34,7 +34,7 @@ public class Hurdle extends GameObject {
 	}
 	
 	public String getName(){
-		return "hurdle";
+		return "tallhurdle";
 	}
 
 }

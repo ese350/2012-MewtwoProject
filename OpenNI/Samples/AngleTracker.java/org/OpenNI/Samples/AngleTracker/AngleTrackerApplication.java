@@ -22,12 +22,16 @@
 package org.OpenNI.Samples.AngleTracker;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class AngleTrackerApplication {
 
@@ -60,6 +64,7 @@ public class AngleTrackerApplication {
     public static void main(String[] s)
     {
         JFrame f = new JFrame("OpenNI User Tracker");
+        f.setLocation(800,0);
         f.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {System.exit(0);}
         });
@@ -70,27 +75,27 @@ public class AngleTrackerApplication {
         f.pack();
         f.setVisible(true);
         
-        /*final JFrame frame = new JFrame("Pong");
-  	  	frame.setLocation(300, 300);
-
-  	  	// Main playing area
-  	  	final PongCourt court = new PongCourt(app.viewer);
-  	  	frame.add(court, BorderLayout.CENTER);*/
-
-        
-        JFrame frame = new JFrame("Hurdle Turtle");
-  	  	frame.setLocation(600, 400);
-
-  	  	// Main playing area
-  	  	Arena arena = new Arena(app.viewer);
-  	  	frame.add(arena, BorderLayout.CENTER);
   	  	
-  	  	frame.pack();
-  	  	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-  	  	frame.setVisible(true);
+  	  final JFrame frame = new JFrame("Hurdle Turtle");
+      frame.setLocation(800, 650);
 
-  	  	// Start the game running
-  	  	arena.reset();
+      // Main playing area
+      final Arena arena = new Arena(app.viewer);
+      frame.add(arena, BorderLayout.CENTER); // add what, where
+ 
+      final JPanel panel = new JPanel();
+      //final JLabel track = new JLabel(t,JLabel.CENTER);
+     // frame.add(track, BorderLayout.CENTER);
+      frame.add(panel, BorderLayout.NORTH);
+     // panel.add(reset);
+      // Put the frame on the screen
+      frame.pack();
+      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      frame.setVisible(true);
+
+      // Start the game running
+      arena.reset();
+      
   	  	
         MP3 mp3 = new MP3("/home/chenst/MewtwoProject/OpenNI/Samples/AngleTracker.java/org/OpenNI/Samples/AngleTracker/TMNT.mp3");
         mp3.play();
