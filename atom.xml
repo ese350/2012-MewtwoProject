@@ -4,7 +4,7 @@
   <title><![CDATA[ReKibilitate]]></title>
   <link href="http://ese350.github.com/MewtwoProject/atom.xml" rel="self"/>
   <link href="http://ese350.github.com/MewtwoProject/"/>
-  <updated>2012-04-27T10:52:24-04:00</updated>
+  <updated>2012-05-10T18:52:48-04:00</updated>
   <id>http://ese350.github.com/MewtwoProject/</id>
   <author>
     <name><![CDATA[ReKibilitate]]></name>
@@ -12,6 +12,22 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Final Submission]]></title>
+    <link href="http://ese350.github.com/MewtwoProject/blog/2012/05/09/final-submission/"/>
+    <updated>2012-05-09T18:42:00-04:00</updated>
+    <id>http://ese350.github.com/MewtwoProject/blog/2012/05/09/final-submission</id>
+    <content type="html"><![CDATA[<p>Here we are, finally at the end of our ESE 350 Journey. You can find
+links to our work below:</p>
+
+<p><a href="http://www.seas.upenn.edu/~chenst/rekibilitate/Team_Mewtwo.pdf">Report</a></p>
+
+<p><a href="http://www.seas.upenn.edu/~chenst/rekibilitate/TeamMewtwo.zip">Source Code</a></p>
+
+<p><img src="http://www.seas.upenn.edu/~chenst/rekibilitate/photo.jpg"></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Final Product!]]></title>
