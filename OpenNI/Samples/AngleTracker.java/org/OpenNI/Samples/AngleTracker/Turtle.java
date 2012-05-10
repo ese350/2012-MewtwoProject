@@ -11,7 +11,6 @@ public class Turtle extends GameObject {
 	final static int HEIGHT = 37; // height of the object, need to getWidth()
 	final static int WIDTH = 48;
 	private int ah;
-	//private boolean j = false;
 	private Map<Integer, Image> turtlePics = new HashMap<Integer, Image>();
 	
 	static ImageIcon one = 
@@ -108,13 +107,8 @@ public class Turtle extends GameObject {
 	
 	public boolean land(int bound, boolean jumped){
 		if(jumped){
-			//System.out.println("y is: "+y);
-			//System.out.println("bound/lasty is: "+bound);
 			if(y + 7 > bound){
-			//	System.out.println("velocityY should be 0");
 				velocityY = 0;
-			//	System.out.println("in land(), landed at: "+y+
-				//		" with velocity y: "+velocityY);
 				return false; // after landing, isJumping should be false
 			}
 			else return true; // still need to be in the air 
@@ -126,7 +120,6 @@ public class Turtle extends GameObject {
 			velocityX = 0;
 		if (y > (ah - HEIGHT)){
 			velocityY = 0;
-			//System.out.println("into accelerate with y :"+y);
 		}
 		if (y < 0)
 			velocityY = 10; 
@@ -140,7 +133,6 @@ public void reenter(){
 	}
 	 
 	public void draw(Graphics g) {
-		//g.fillOval(x, y, WIDTH, HEIGHT);
 		g.drawImage(img, x, y, null);
 	}
 	
@@ -150,6 +142,4 @@ public void reenter(){
 }
 
 
-
-//TMNT Theme - Metal Version [Instrumental]
 

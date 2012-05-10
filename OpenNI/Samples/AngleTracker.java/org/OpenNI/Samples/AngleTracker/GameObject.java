@@ -61,10 +61,6 @@ public abstract class GameObject {
 	public void move() {
 		x += velocityX;
 		y += velocityY;
-		
-
-		//accelerate(); // what does this do?
-		//clip(); // what does this do?
 	}
 
 	// Keep the object in the bounds of the court
@@ -77,7 +73,6 @@ public abstract class GameObject {
 			y = 0;
 		else if (y > bb){ // if object is lower than bottombound, object stays there
 			y = bb;
-			//System.out.println("clipped with y at "+y); 
 		}
 	}
 	
@@ -96,11 +91,6 @@ public abstract class GameObject {
 				|| y + height == other.y
 				|| x == other.width + other.x
 				|| y == other.height + other.y){
-	//		System.out.println("touched");
-		//	System.out.println("turtle touched at x direction : "+(x + width));
-			//System.out.println("wall touched at x direction : "+(other.x));
-			//System.out.println("turtle touched at y direction : "+(y + height));
-			//System.out.println("wall touched at x direction : "+(other.y));
 			return true;
 		}
 		else return false;
@@ -116,14 +106,12 @@ public abstract class GameObject {
 	 *         object.
 	 */
 	public boolean intersects(GameObject other) {
-		//System.out.println(other.getName()+"'s x is: "+x+ " width is: "+width);
 		if (       other.x > x + width
 				|| other.y > y + height
 				|| other.x + other.width  < x
 				|| other.y + other.height < y)
 			return false;
 		else {
-		//	System.out.println("intersected");
 			return true;
 		}
 		// compute the vector from the center of this object to the center of
@@ -149,8 +137,6 @@ public abstract class GameObject {
 		if(jumped){
 			if(y > bound){
 				velocityY = 0;
-			//	System.out.println("in land(), landed at: "+y+
-					//	" with velocity y: "+velocityY);
 				return false;
 			}
 			else return true;
@@ -159,14 +145,6 @@ public abstract class GameObject {
 	}
 
 	public abstract void draw(Graphics g);
-	
-	
-/*	public void pause(){
-		lastvx = velocityX; // stores last velocity before pauses 
-		lastvy = velocityY; 
-		velocityX = 0; 
-		velocityY = 0; 
-	} */
 	
 	public void setImage(Image i){
 		this.img = i;

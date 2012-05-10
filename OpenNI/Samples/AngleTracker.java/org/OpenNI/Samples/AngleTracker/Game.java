@@ -16,11 +16,8 @@ public class Game implements Runnable {
       frame.add(arena, BorderLayout.CENTER); // add what, where
 
       // Reset button
-     // ImageIcon t = new ImageIcon("C:/Users/Amy/Desktop/Spring 2012/CIS120/track.PNG");
  
       final JPanel panel = new JPanel();
-      //final JLabel track = new JLabel(t,JLabel.CENTER);
-     // frame.add(track, BorderLayout.CENTER);
       frame.add(panel, BorderLayout.NORTH);
       final JButton reset = new JButton("Reset");
       reset.addActionListener(new ActionListener() {

@@ -28,9 +28,7 @@ public class TallHurdle extends GameObject {
 	
 
 	public void draw(Graphics g) {
-		//g.fillRect(x, y, WIDTH, HEIGHT);
 		g.drawImage(img, x, y, null);
-		//System.out.println("the width of hurdle is "+h.getIconWidth()+" the height is "+h.getIconHeight()+"");
 	}
 	
 	public String getName(){
