@@ -4,7 +4,7 @@
   <title><![CDATA[ReKibilitate]]></title>
   <link href="http://ese350.github.com/MewtwoProject/atom.xml" rel="self"/>
   <link href="http://ese350.github.com/MewtwoProject/"/>
-  <updated>2012-05-10T18:58:03-04:00</updated>
+  <updated>2012-05-10T18:58:56-04:00</updated>
   <id>http://ese350.github.com/MewtwoProject/</id>
   <author>
     <name><![CDATA[ReKibilitate]]></name>
@@ -29,7 +29,7 @@ links to our work below:</p>
 
 <p>Updated Video:</p>
 
-<iframe width="560" height="315" src="http://www.youtube.com/watch?v=2qw5Ta7pSmk&feature=youtu.be" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="http://www.youtube.com/embed/2qw5Ta7pSmk" frameborder="0" allowfullscreen></iframe>
 
 ]]></content>
   </entry>
