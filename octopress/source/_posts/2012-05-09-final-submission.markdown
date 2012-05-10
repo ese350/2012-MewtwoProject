@@ -14,3 +14,7 @@ links to our work below:
 [Source Code](http://www.seas.upenn.edu/~chenst/rekibilitate/TeamMewtwo.zip)
 
 <img src="http://www.seas.upenn.edu/~chenst/rekibilitate/photo.jpg">
+
+Updated Video:
+
+<iframe width="560" height="315" src="http://www.youtube.com/embed/2qw5Ta7pSmk" frameborder="0" allowfullscreen></iframe>
